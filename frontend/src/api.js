@@ -14,6 +14,11 @@ const api = axios.create({
 // Add request interceptor for logging
 api.interceptors.request.use(request => {
   console.log('📤 Starting Request:', request);
+  // Attach token if available
+  const token = localStorage.getItem('token');
+  if (token) {
+    request.headers['Authorization'] = `Bearer ${token}`;
+  }
   return request;
 });
 
