@@ -14,9 +14,23 @@ const app = express();
 
 // Middleware
 console.log('🔧 Setting up middleware...');
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://kod-bank-xz4y.vercel.app'
+];
 app.use(cors({
-  origin: process.env.CLIENT_URL,
-  credentials: true
+  origin: function(origin, callback) {
+    // allow requests with no origin (like mobile apps, curl, etc.)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
