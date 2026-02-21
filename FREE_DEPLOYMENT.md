@@ -1,0 +1,5 @@
+DB_PORT=21983
+DB_USER=avnadmin
+DB_PASSWORD=<REDACTED>
+DB_NAME=defaultdb
+JWT_SECRET=kodbank_secret_key_2026_secure_signature
