@@ -31,23 +31,23 @@ api.interceptors.response.use(
 
 export const register = (userData) => {
   console.log('🔐 Calling register with:', userData);
-  return api.post('/auth/register', userData);
+  return api.post('/api/auth/register', userData);
 };
 
 export const login = (credentials) => {
-  return api.post('/auth/login', credentials);
+  return api.post('/api/auth/login', credentials);
 };
 
 export const logout = () => {
-  return api.post('/auth/logout');
+  return api.post('/api/auth/logout');
 };
 
 export const getBalance = () => {
-  return api.get('/user/balance');
+  return api.get('/api/user/balance');
 };
 
 export const getProfile = () => {
-  return api.get('/user/profile');
+  return api.get('/api/user/profile');
 };
 
 export default api;
