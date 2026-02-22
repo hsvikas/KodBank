@@ -4,6 +4,8 @@ import Confetti from 'react-confetti';
 import { getBalance, logout } from '../api';
 import './Dashboard.css';
 
+import KodAssist from './KodAssist';
+
 function Dashboard() {
   const [balance, setBalance] = useState(null);
   const [loading, setLoading] = useState(false);
