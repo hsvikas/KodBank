@@ -52,7 +52,6 @@ function Dashboard() {
   return (
     <div className="dashboard-container">
       {showConfetti && <Confetti />}
-      
       <div className="dashboard-header">
         <h1>Welcome to Kodbank</h1>
         <div className="user-info">
@@ -60,12 +59,9 @@ function Dashboard() {
           <button onClick={handleLogout} className="logout-btn">Logout</button>
         </div>
       </div>
-
       <div className="dashboard-card">
         <h2>Account Dashboard</h2>
-        
         {error && <div className="error-message">{error}</div>}
-        
         {!showBalance ? (
           <div className="balance-section">
             <p className="description">Click the button below to check your balance</p>
@@ -94,6 +90,11 @@ function Dashboard() {
             </button>
           </div>
         )}
+      </div>
+      {/* Render KodAssist chatbot below dashboard */}
+      <div style={{ marginTop: '40px' }}>
+        <KodAssist />
+        <div style={{ textAlign: 'center', fontWeight: 'bold', marginTop: '10px' }}>KodAssist Chatbot</div>
       </div>
     </div>
   );

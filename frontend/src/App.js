@@ -15,9 +15,6 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/" element={<Navigate to="/register" replace />} />
       </Routes>
-
-      {/* Chatbot should be outside Routes */}
-      <KodAssist />
     </Router>
   );
 }
