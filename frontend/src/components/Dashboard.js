@@ -4,7 +4,7 @@ import Confetti from 'react-confetti';
 import { getBalance, logout } from '../api';
 import './Dashboard.css';
 
-import KodAssist from './KodAssist';
+import KodAssist from './kodassist';
 
 function Dashboard() {
   const [balance, setBalance] = useState(null);

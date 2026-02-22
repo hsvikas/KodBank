@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Register from './components/Register';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
-import KodAssist from './components/KodAssist';
+import KodAssist from './components/kodassist';
 import './App.css';
 
 function App() {
