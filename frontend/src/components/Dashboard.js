@@ -4,8 +4,6 @@ import Confetti from 'react-confetti';
 import { getBalance, logout } from '../api';
 import './Dashboard.css';
 
-import KodAssist from './kodassist';
-
 function Dashboard() {
   const [balance, setBalance] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -30,7 +28,6 @@ function Dashboard() {
         setBalance(response.data.balance);
         setShowBalance(true);
         setShowConfetti(true);
-        // Stop confetti after 4 seconds
         setTimeout(() => setShowConfetti(false), 4000);
       }
     } catch (err) {
@@ -57,19 +54,27 @@ function Dashboard() {
       <div className="dashboard-header">
         <h1>Welcome to Kodbank</h1>
         <div className="user-info">
-          <span>Logged in as: <strong>{username}</strong></span>
-          <button onClick={handleLogout} className="logout-btn">Logout</button>
+          <span>
+            Logged in as: <strong>{username}</strong>
+          </span>
+          <button onClick={handleLogout} className="logout-btn">
+            Logout
+          </button>
         </div>
       </div>
+
       <div className="dashboard-card">
         <h2>Account Dashboard</h2>
         {error && <div className="error-message">{error}</div>}
+
         {!showBalance ? (
           <div className="balance-section">
-            <p className="description">Click the button below to check your balance</p>
-            <button 
-              onClick={handleCheckBalance} 
-              disabled={loading} 
+            <p className="description">
+              Click the button below to check your balance
+            </p>
+            <button
+              onClick={handleCheckBalance}
+              disabled={loading}
               className="check-balance-btn"
             >
               {loading ? 'Checking...' : 'Check Balance'}
@@ -81,22 +86,22 @@ function Dashboard() {
               <p className="balance-label">Your Balance Is:</p>
               <div className="balance-amount">
                 <span className="currency">₹</span>
-                <span className="amount">{balance.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                <span className="amount">
+                  {balance.toLocaleString('en-IN', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                  })}
+                </span>
               </div>
             </div>
-            <button 
-              onClick={handleCheckBalance} 
+            <button
+              onClick={handleCheckBalance}
               className="check-balance-btn secondary"
             >
               Check Again
             </button>
           </div>
         )}
-      </div>
-      {/* Render KodAssist chatbot below dashboard */}
-      <div style={{ marginTop: '40px' }}>
-        <KodAssist />
-        <div style={{ textAlign: 'center', fontWeight: 'bold', marginTop: '10px' }}>KodAssist Chatbot</div>
       </div>
     </div>
   );
