@@ -7,6 +7,7 @@ console.log('📦 Loading routes...');
 
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
+const chatRoutes = require('./routes/chat');
 
 console.log('✅ Routes loaded successfully');
 
@@ -41,6 +42,7 @@ console.log('✅ Middleware configured');
 console.log('📍 Registering routes...');
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/chat', chatRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

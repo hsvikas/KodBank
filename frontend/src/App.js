@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Register from './components/Register';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
+import KodAssist from './components/KodAssist';
 import './App.css';
 
 function App() {
@@ -14,6 +15,9 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/" element={<Navigate to="/register" replace />} />
       </Routes>
+
+      {/* Chatbot should be outside Routes */}
+      <KodAssist />
     </Router>
   );
 }
