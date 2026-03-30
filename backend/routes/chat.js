@@ -35,7 +35,7 @@ router.post("/", async (req, res) => {
 
     // Call Hugging Face API
     const response = await axios.post(
-      "https://api-inference.huggingface.co/models/google/flan-t5-base",
+      "https://router.huggingface.co/hf-inference/models/google/flan-t5-base",
       {
         inputs: `${SYSTEM_PROMPT}\nUser: ${userMessage}\nAssistant:`
       },
