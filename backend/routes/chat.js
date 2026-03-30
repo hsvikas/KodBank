@@ -18,13 +18,14 @@ router.post("/", async (req, res) => {
   try {
     const userMessage = req.body.message;
 
+    // Validation
     if (!userMessage) {
       return res.status(400).json({
         reply: "Message is required"
       });
     }
 
-    // Safety check before calling AI
+    // Security check
     if (/otp|password|pin|cvv/i.test(userMessage)) {
       return res.json({
         reply:
@@ -32,7 +33,7 @@ router.post("/", async (req, res) => {
       });
     }
 
-    // Call Hugging Face Inference API
+    // Call Hugging Face API
     const response = await axios.post(
       "https://api-inference.huggingface.co/models/google/flan-t5-base",
       {
@@ -43,30 +44,35 @@ router.post("/", async (req, res) => {
           Authorization: `Bearer ${process.env.HF_API_KEY}`,
           "Content-Type": "application/json"
         },
-        timeout: 60000 // 60 seconds for cold start
+        timeout: 60000
       }
     );
 
-    // SAFELY extract AI response (handles all HF formats)
-    let aiReply = "";
+    console.log("HF RESPONSE:", response.data);
+
+    // Handle Hugging Face errors (important fix)
+    if (response.data.error) {
+      return res.json({
+        reply: "⏳ KodAssist is warming up. Please try again in a few seconds."
+      });
+    }
+
+    // Extract AI response safely
+    let aiReply = "KodAssist could not respond.";
 
     if (Array.isArray(response.data)) {
-      aiReply =
-        response.data[0]?.generated_text ||
-        "KodAssist could not generate a response.";
+      aiReply = response.data[0]?.generated_text || aiReply;
     } else if (response.data.generated_text) {
       aiReply = response.data.generated_text;
-    } else {
-      aiReply = "KodAssist could not understand the response.";
     }
 
     return res.json({ reply: aiReply });
-  } catch (error) {
-    console.error("❌ Chatbot error:", error.message);
 
-    return res.status(500).json({
-      reply:
-        "KodAssist is temporarily unavailable. Please try again in a moment."
+  } catch (error) {
+    console.error("❌ FULL ERROR:", error.response?.data || error.message);
+
+    return res.json({
+      reply: "⚠️ KodAssist is temporarily unavailable. Please try again shortly."
     });
   }
 });
