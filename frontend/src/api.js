@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-// Use environment variable, localhost for development, or deployed backend URL
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://kodbank-0qna.onrender.com/';
+// Base URL
+const API_BASE_URL =
+  process.env.REACT_APP_API_URL ||
+  'https://kodbank-0qna.onrender.com';
 
 console.log('🔧 Initializing API client...');
 console.log(`📡 API Base URL: ${API_BASE_URL}`);
@@ -11,18 +13,19 @@ const api = axios.create({
   withCredentials: true
 });
 
-// Add request interceptor for logging
+// Request interceptor
 api.interceptors.request.use(request => {
   console.log('📤 Starting Request:', request);
-  // Attach token if available
+
   const token = localStorage.getItem('token');
   if (token) {
     request.headers['Authorization'] = `Bearer ${token}`;
   }
+
   return request;
 });
 
-// Add response interceptor for logging
+// Response interceptor
 api.interceptors.response.use(
   response => {
     console.log('✅ Response:', response);
@@ -34,25 +37,25 @@ api.interceptors.response.use(
   }
 );
 
-export const register = (userData) => {
-  console.log('🔐 Calling register with:', userData);
-  return api.post('/api/auth/register', userData);
-};
+// 🔐 Auth APIs
+export const register = (userData) =>
+  api.post('/api/auth/register', userData);
 
-export const login = (credentials) => {
-  return api.post('/api/auth/login', credentials);
-};
+export const login = (credentials) =>
+  api.post('/api/auth/login', credentials);
 
-export const logout = () => {
-  return api.post('/api/auth/logout');
-};
+export const logout = () =>
+  api.post('/api/auth/logout');
 
-export const getBalance = () => {
-  return api.get('/api/user/balance');
-};
+// 👤 User APIs
+export const getBalance = () =>
+  api.get('/api/user/balance');
 
-export const getProfile = () => {
-  return api.get('/api/user/profile');
-};
+export const getProfile = () =>
+  api.get('/api/user/profile');
+
+// 🤖 ✅ CHATBOT API (IMPORTANT FIX)
+export const sendMessage = (message) =>
+  api.post('/api/chat', { message });
 
 export default api;
