@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+  import React, { useState } from "react";
 import api from "../api";
 import "./KodAssist.css";
 
@@ -27,19 +27,39 @@ function KodAssist() {
     const messageToSend = textFromButton || input;
     if (!messageToSend.trim()) return;
 
+    // Add user message
     const userMsg = { sender: "user", text: messageToSend };
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
     setTyping(true);
 
     try {
-      const res = await api.post("/api/chat", { message: messageToSend });
-      const botMsg = { sender: "bot", text: res.data.reply };
+      const res = await api.post("/api/chat", {
+        message: messageToSend
+      });
+
+      // ✅ Safe response handling
+      const reply =
+        res?.data?.reply ||
+        "⚠️ KodAssist couldn't understand. Try again.";
+
+      const botMsg = {
+        sender: "bot",
+        text: reply
+      };
+
       setMessages((prev) => [...prev, botMsg]);
+
     } catch (err) {
+      console.error("CHAT ERROR:", err.response?.data || err.message);
+
+      const errorMsg =
+        err?.response?.data?.reply ||
+        "⚠️ KodAssist is temporarily unavailable.";
+
       setMessages((prev) => [
         ...prev,
-        { sender: "bot", text: "KodAssist is unavailable right now." }
+        { sender: "bot", text: errorMsg }
       ]);
     } finally {
       setTyping(false);
@@ -48,15 +68,17 @@ function KodAssist() {
 
   return (
     <>
-      {/* Floating button */}
+      {/* Floating Chat Button */}
       <div className="chat-button" onClick={toggleChat}>
         💬
       </div>
 
       {open && (
         <div className="chat-box">
+          {/* Header */}
           <div className="chat-header">KodAssist</div>
 
+          {/* Messages */}
           <div className="chat-body">
             {messages.map((msg, i) => (
               <div key={i} className={`msg ${msg.sender}`}>
@@ -69,7 +91,7 @@ function KodAssist() {
             )}
           </div>
 
-          {/* Quick buttons */}
+          {/* Quick Buttons */}
           <div className="quick-buttons">
             <button onClick={() => sendMessage("How can I save money?")}>
               💰 Save money
@@ -77,7 +99,7 @@ function KodAssist() {
             <button onClick={() => sendMessage("Is my account secure?")}>
               🔐 Account security
             </button>
-            <button onClick={() => sendMessage("Explain bank balance")}> 
+            <button onClick={() => sendMessage("Explain bank balance")}>
               📊 Bank balance
             </button>
             <button onClick={() => sendMessage("What is FD and RD?")}>
@@ -85,6 +107,7 @@ function KodAssist() {
             </button>
           </div>
 
+          {/* Input */}
           <div className="chat-footer">
             <input
               value={input}
