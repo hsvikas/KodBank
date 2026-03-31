@@ -71,8 +71,9 @@ router.post("/", async (req, res) => {
   } catch (error) {
     console.error("❌ FULL ERROR:", error.response?.data || error.message);
 
+    // Always return a chat-appropriate error message
     return res.json({
-      reply: error.response?.data?.error || "Chat failed"
+      reply: "⚠️ KodAssist is temporarily unavailable. Please try again later."
     });
   }
 });
